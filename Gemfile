@@ -1,7 +1,6 @@
 source :gemcutter
 
 gem "capistrano", "< 3.0.0"
-gem "capistrano-log_with_awesome", "~> 0.0.2"
 
 group :development do
   gem "rspec", ">= 2.5.0"
