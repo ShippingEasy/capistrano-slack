@@ -1,5 +1,4 @@
 require 'capistrano'
-require 'capistrano/log_with_awesome'
 require 'json'
 require 'net/http'
 # TODO need to handle loading a bit beter. these would load into the instance if it's defined
@@ -34,7 +33,7 @@ module Capistrano
                              else
                                "#{announced_deployer} is deploying #{slack_application} to #{announced_stage}"
                              end
-              
+
 
               # Parse the API url and create an SSL connection
               uri = URI.parse("https://#{slack_subdomain}.slack.com/services/hooks/incoming-webhook?token=#{slack_token}")
@@ -66,9 +65,9 @@ module Capistrano
                 end_time = Time.now
                 start_time = fetch(:start_time)
                 elapsed = end_time.to_i - start_time.to_i
-              
+
                 msg = "#{announced_deployer} deployed #{slack_application} successfully in #{elapsed} seconds."
-                
+
                 # Parse the URI and handle the https connection
                 uri = URI.parse("https://#{slack_subdomain}.slack.com/services/hooks/incoming-webhook?token=#{slack_token}")
                 http = Net::HTTP.new(uri.host, uri.port)
@@ -78,7 +77,7 @@ module Capistrano
                 # Create the post request and setup the form data
                 request = Net::HTTP::Post.new(uri.request_uri)
                 request.set_form_data(:payload => {'channel' => slack_room, 'username' => slack_username, 'text' => msg, "icon_emoji" => slack_emoji}.to_json)
-                
+
                 # Make the actual request to the API
                 response = http.request(request)
 
@@ -96,4 +95,4 @@ end
 if Capistrano::Configuration.instance
   Capistrano::Configuration.instance.extend(Capistrano::Slack)
 end
-  
+
