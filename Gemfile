@@ -1,6 +1,6 @@
 source :gemcutter
 
-gem "capistrano", "< 3.0.0"
+gem "capistrano"
 
 group :development do
   gem "rspec", ">= 2.5.0"
